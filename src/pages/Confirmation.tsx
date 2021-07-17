@@ -1,24 +1,28 @@
-import { Box, Button, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router';
+import { Box, Button, Typography } from '@material-ui/core';
 import { useQuestions } from '../components/hooks/useQuestions';
 
 export function Confirmation(){    
-    const { quantityQuestionsValue } = useQuestions();
+    const { quantityQuestions, getQuantityQuestions, loadingQuestions } = useQuestions();
     const history = useHistory();
 
     function handleCancelQuiz(){
-        quantityQuestionsValue(0);
+        getQuantityQuestions(0);
         history.push('/')
     }
 
     function handleStartQuiz(){
-        history.push('/dashboard')
+        loadingQuestions();
+        history.push('/dashboard');
     }
 
     return (
         <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" style={{height:"100vh"}}>
-            <Typography component="span" variant="h6" gutterBottom>
+            <Typography component="span" variant="h6">
                 <span style={{fontWeight: 300}}>Iniciar questionário?</span>
+            </Typography>
+            <Typography component="span" style={{color:"#9d9d9d"}} gutterBottom>
+                <span style={{fontWeight: 300}}>tempo estimado: { Math.round((quantityQuestions * 45) / 60)} min</span>
             </Typography>
             <Box marginY={2} display="flex" justifyContent="space-between" style={{width: "300px"}}>
                 <Button 

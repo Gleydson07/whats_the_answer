@@ -5,18 +5,18 @@ import { Form, Formik } from "formik";
 import { Box, FormLabel, FormControlLabel, RadioGroup, Radio, Typography } from '@material-ui/core';
 
 export function Home(){
-    const {quantityQuestions, quantityQuestionsValue} = useQuestions();
+    const {quantityQuestions, getQuantityQuestions} = useQuestions();
     const history = useHistory();
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const target = event.target as HTMLInputElement;
         const value = Number(target.value);
-        quantityQuestionsValue(value);
+        getQuantityQuestions(value);
         handleSubmit();
     };
 
     function handleSubmit(){
-        history.push("/confirmation");
+        setTimeout(() => history.push("/confirmation"), 1000);
     }
 
     return (

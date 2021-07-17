@@ -1,6 +1,6 @@
 import React from 'react';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
-import { theme } from './components/style/theme';
+import { theme } from './style/theme';
 import { Routes } from './Routes';
 import { QuestionsProvider } from './components/hooks/useQuestions';
 
