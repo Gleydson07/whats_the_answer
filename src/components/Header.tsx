@@ -1,10 +1,8 @@
-import { useQuestions } from "./hooks/useQuestions";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Box, List, ListItem, ListItemSecondaryAction, ListItemText, Tooltip, Typography } from "@material-ui/core";
 
 
 export function Header(){
-    const {quantityQuestions} = useQuestions();
     return (
         <Box justifyContent="center" pt={2}>
             <Typography variant="h4">
@@ -33,18 +31,18 @@ export function Header(){
 
                 <Box width={300} textAlign="center">                    
                     <List dense aria-label="main statistics" style={{padding: "0 2rem"}}>
-                        <ListItemText primary="Estatísticas"/>
+                        <ListItemText primary="Statistics"/>
                         <ListItem >
-                            <ListItemText secondary="Acertos"/>
+                            <ListItemText secondary="Correct"/>
                             <ListItemSecondaryAction >7</ListItemSecondaryAction>
                         </ListItem>
                         <ListItem>
-                            <ListItemText secondary="Erros" />
+                            <ListItemText secondary="Incorrects" />
                             <ListItemSecondaryAction >3</ListItemSecondaryAction>
                         </ListItem>
                         <ListItem>
                             <ListItemText secondary="Total" />
-                            <ListItemSecondaryAction>10 de {quantityQuestions}</ListItemSecondaryAction>
+                            <ListItemSecondaryAction>id of quantity</ListItemSecondaryAction>
                         </ListItem>
                     </List>
                 </Box>

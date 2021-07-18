@@ -1,22 +1,22 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useQuestions } from '../components/hooks/useQuestions';
 import { Form, Formik } from "formik";
 import { Box, FormLabel, FormControlLabel, RadioGroup, Radio, Typography } from '@material-ui/core';
+import { useQuestions } from '../components/hooks/useQuestions';
 
 export function Home(){
-    const {quantityQuestions, getQuantityQuestions} = useQuestions();
     const history = useHistory();
+    const {loadingQuantityQuestions, quantityQuestions} = useQuestions();
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const target = event.target as HTMLInputElement;
         const value = Number(target.value);
-        getQuantityQuestions(value);
+        loadingQuantityQuestions(value);
         handleSubmit();
     };
 
     function handleSubmit(){
-        setTimeout(() => history.push("/confirmation"), 1000);
+        setTimeout(() => history.push(`/confirmation`), 1000);
     }
 
     return (
@@ -35,9 +35,16 @@ export function Home(){
                 onSubmit={() => handleSubmit()}
             >
                 {(formik) => (
-                    <Form onSubmit={formik.handleSubmit} >
-                        <FormLabel style={{marginTop: "16px"}} component="legend">Selecione a quantidade de perguntas</FormLabel>
-                        <RadioGroup aria-label="questionQuantity" name="questionQuantity" id="questionQuantity" style={{marginTop: "16px"}} value={quantityQuestions} onChange={handleChange}>
+                    <Form onSubmit={formik.handleSubmit} style={{minWidth: "300px"}}>
+                        <FormLabel style={{marginTop: "1rem"}} component="legend">Select the number of questions</FormLabel>
+                        <RadioGroup 
+                            aria-label="questionQuantity" 
+                            name="questionQuantity" 
+                            id="questionQuantity" 
+                            style={{marginTop: "1rem"}} 
+                            value={quantityQuestions} 
+                            onChange={handleChange}
+                        >
                             <FormControlLabel value={5} control={<Radio />} label="5"/>
                             <FormControlLabel value={10} control={<Radio />} label="10" />
                             <FormControlLabel value={15} control={<Radio />} label="15" />
