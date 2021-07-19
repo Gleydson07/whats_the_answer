@@ -1,18 +1,18 @@
-import { useContext, createContext, ReactNode, useState } from "react";
+import { useContext, createContext, ReactNode, useState, useEffect } from "react";
 import { api } from "../../services/axios";
 
 type QuestionsProviderProps = {
     children: ReactNode;
 }
 
-type currentQuiz = {
-    questions: Question[],
-    current: number,
-    corrects: number,
-    incorrects: number,
-    next: number,
-    totalQuestions: number,
-}
+// type currentQuiz = {
+//     questions: Question[],
+//     current: number,
+//     corrects: number,
+//     incorrects: number,
+//     next: number,
+//     totalQuestions: number,
+// }
 
 type Questions = {
     results: Question[];
@@ -30,10 +30,10 @@ type Question = {
 }
 
 interface IQuestionContextProps {
-    quantityQuestions: Number;
-    oneQuestion: Question | undefined;
+    quantityQuestions: number;
+    oneQuestion: Question;
     answerSelected: String;
-    loadingQuantityQuestions: (value: Number) => void;
+    loadingQuantityQuestions: (value: number) => void;
     loadingUserAnswer: (value: String) => void;
     loadingQuestions: () => void;
     checkAnswer: (value: String) => boolean;
@@ -43,9 +43,9 @@ interface IQuestionContextProps {
 export const QuestionsContext = createContext({} as IQuestionContextProps);
 
 export const QuestionsProvider = ({children}: QuestionsProviderProps) => {    
-    const [quantityQuestions, setQuantityQuestions] = useState<Number>(0);
+    const [quantityQuestions, setQuantityQuestions] = useState<number>(0);
     const [loadedQuestions, setLoadedQuestions] = useState<Question[]>([] as Question[]);
-    const [oneQuestion, setOneQuestion] = useState<Question>();    
+    const [oneQuestion, setOneQuestion] = useState<Question>({} as Question);    
     const [answerSelected, setAnswerSelected] = useState<String>('');
 
     function checkAnswer(userResponse: String){
@@ -57,13 +57,16 @@ export const QuestionsProvider = ({children}: QuestionsProviderProps) => {
     }
 
     function getQuestion(next?: number){
-        if(!next){
-            setOneQuestion(loadedQuestions[0]);
-        }else{
-            if(next !== loadedQuestions.length){
-                setOneQuestion(loadedQuestions[next]);
+        if(loadedQuestions) {
+            if(!next){
+                setOneQuestion(loadedQuestions[0]);
+            }else{
+                if(next !== quantityQuestions){
+                    setOneQuestion(loadedQuestions[next]);
+                }else{
+                    console.log('quiz finished')
+                }
             }
-            console.log('quiz finished')
         }
     }
 
@@ -71,23 +74,23 @@ export const QuestionsProvider = ({children}: QuestionsProviderProps) => {
         const results = await api.get<Questions>(`?amount=${quantityQuestions}`)
         .then(response => response.data)
         .then(data => data.results);
+        
+        const data = results.map((item, index) => ({
+                ...item, 
+                id: index, 
+                answers: shuffle([item.correct_answer, ...item.incorrect_answers])
+        }))
+        
+        setLoadedQuestions([...data])
 
         setOneQuestion({
             ...results[0], 
             id: 0, 
             answers: shuffle([results[0].correct_answer, ...results[0].incorrect_answers])
         })
-
-        results.map((item, index) => (
-            setLoadedQuestions([{
-                ...item, 
-                id: index, 
-                answers: shuffle([item.correct_answer, ...item.incorrect_answers])
-            }])
-        ))
     }
 
-    function loadingQuantityQuestions(value: Number){
+    function loadingQuantityQuestions(value: number){
         setQuantityQuestions(value);
     }
 

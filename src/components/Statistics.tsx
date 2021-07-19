@@ -2,7 +2,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { Box, List, ListItem, ListItemSecondaryAction, ListItemText, Tooltip, Typography } from "@material-ui/core";
 
 
-export function Header(){
+export function Statistics(){
     return (
         <Box justifyContent="center" pt={2}>
             <Typography variant="h4">

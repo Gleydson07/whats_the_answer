@@ -1,22 +1,25 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { Container, Paper } from "@material-ui/core";
+import { Container, Typography, Card } from "@material-ui/core";
+import {Skeleton} from '@material-ui/lab';
 
-import { Header } from "../components/Header";
 import { useQuestions } from "../components/hooks/useQuestions";
+import {StatusProgress} from "../components/StatusProgress";
 import { FormQuestion } from "../components/FormQuestion";
 
 export function Dashboard(){
     const {oneQuestion} = useQuestions();
-
-    useEffect(() => {}, [oneQuestion])
+    const {id} = oneQuestion;
 
     return (
         <Container>
-            <Header/>
-            {oneQuestion && (
+            <Typography variant="h4" style={{marginTop: "1rem"}}>
+                Dashboard
+            </Typography>
+            {/* <StatusProgress/> */}
+            {id !== undefined ? (
                 <Container maxWidth="sm">
-                    <Paper elevation={1} variant="outlined" style={{marginTop: "3rem"}}>
+                    <Card style={{marginTop: "2rem"}}>
                         <FormQuestion 
                             key={oneQuestion.id}
                             id={oneQuestion.id}
@@ -28,7 +31,12 @@ export function Dashboard(){
                             incorrect_answers={oneQuestion.incorrect_answers}
                             answers={oneQuestion.answers}
                         />
-                    </Paper>
+                    </Card>
+                </Container>
+            ): (
+                <Container maxWidth="sm">
+                    {/* <Skeleton variant="text" height={40} style={{marginTop: "2rem"}} animation="wave"/> */}
+                    <Skeleton variant="rect" width="100%" height={400} style={{marginTop: "2rem"}} animation="wave"/>
                 </Container>
             )}
         </Container>

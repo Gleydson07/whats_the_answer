@@ -21,10 +21,9 @@ export function FormQuestion({
     difficulty, 
     question, 
     correct_answer, 
-    incorrect_answers,
     answers
 }: Question) {
-    const {loadingUserAnswer, answerSelected, checkAnswer, getQuestion} = useQuestions();
+    const {loadingUserAnswer, answerSelected, checkAnswer, getQuestion, quantityQuestions} = useQuestions();
     const [hasNextButtonDisabled, setHasNextButtonDisabled] = useState(true);
     const [hasCorrect, setHasCorrect] = useState(false);
 
@@ -34,12 +33,15 @@ export function FormQuestion({
         loadingUserAnswer(value);
         setHasCorrect(checkAnswer(value));
         setHasNextButtonDisabled(false);
-        handleSubmit();
     };
 
     function toNextQuestion(){
         loadingUserAnswer('');
-        getQuestion();
+        getQuestion(id+1);
+    }
+
+    function finishQuiz(){
+        loadingUserAnswer('');
     }
 
     function handleSubmit(){
@@ -86,18 +88,37 @@ export function FormQuestion({
                         </RadioGroup>
                         <Typography variant="subtitle1" align="center" style={{margin: "1rem 0"}}>
                             {answerSelected ? (
-                                <span style={{color: hasCorrect ? "green" : "red"}}>{hasCorrect ? 'Hey, you got it right 😉.' : 'How sad, you were wrong 😥.'}</span>
+                                <span 
+                                    style={{color: hasCorrect ? "green" : "red"}}
+                                >
+                                    {hasCorrect ? 
+                                        'Hey, you got it right 😉.' 
+                                    : 
+                                        `Incorrect, the correct answer is: ${correct_answer}`
+                                    }
+                                </span>
                             ) : ('')}
                         </Typography>
-                        <Box display="flex" justifyContent="flex-end" style={{marginTop: "1rem",}}>
-                            <Button 
-                                onClick={() => toNextQuestion()}
-                                variant="contained" 
-                                color="primary" 
-                                disabled={hasNextButtonDisabled}
-                            >
-                                Next
-                            </Button>
+                        <Box display="flex" justifyContent="flex-end" style={{marginTop: "1rem"}}>
+                            {id+1 !== quantityQuestions ? (
+                                <Button 
+                                    onClick={() => toNextQuestion()}
+                                    variant="contained" 
+                                    color="primary" 
+                                    disabled={hasNextButtonDisabled}
+                                >
+                                    Next
+                                </Button>
+                            ) : (
+                                <Button 
+                                    onClick={() => finishQuiz()}
+                                    variant="contained" 
+                                    color="primary" 
+                                    disabled={hasNextButtonDisabled}
+                                >
+                                    Finish
+                                </Button>
+                            )}
                         </Box>
                     </Form>
                 )}
