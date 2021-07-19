@@ -1,18 +1,16 @@
-import { useContext, createContext, ReactNode, useState, useEffect } from "react";
+import { useContext, createContext, ReactNode, useState } from "react";
 import { api } from "../../services/axios";
 
 type QuestionsProviderProps = {
     children: ReactNode;
 }
 
-// type currentQuiz = {
-//     questions: Question[],
-//     current: number,
-//     corrects: number,
-//     incorrects: number,
-//     next: number,
-//     totalQuestions: number,
-// }
+type Quiz = {
+    questions: Question[],
+    corrects: number,
+    incorrects: number,
+    totalQuestions: number,
+}
 
 type Questions = {
     results: Question[];
@@ -26,18 +24,27 @@ type Question = {
     question: string,
     correct_answer: string,
     incorrect_answers: string[]
-    answers: string[]
+    answers: string[],
+    answer_selected_for_user?: string;
 }
 
 interface IQuestionContextProps {
     quantityQuestions: number;
     oneQuestion: Question;
     answerSelected: String;
+    quiz: Quiz,
     loadingQuantityQuestions: (value: number) => void;
     loadingUserAnswer: (value: String) => void;
     loadingQuestions: () => void;
     checkAnswer: (value: String) => boolean;
     getQuestion: (value?: number) => void;
+}
+
+const initialQuizProps  = {
+    questions: [] as Question[],
+    corrects: 0,
+    incorrects: 0,
+    totalQuestions: 0
 }
 
 export const QuestionsContext = createContext({} as IQuestionContextProps);
@@ -47,9 +54,25 @@ export const QuestionsProvider = ({children}: QuestionsProviderProps) => {
     const [loadedQuestions, setLoadedQuestions] = useState<Question[]>([] as Question[]);
     const [oneQuestion, setOneQuestion] = useState<Question>({} as Question);    
     const [answerSelected, setAnswerSelected] = useState<String>('');
+    const [quiz, setQuiz] = useState<Quiz>(initialQuizProps);
 
     function checkAnswer(userResponse: String){
-        return userResponse === oneQuestion?.correct_answer;
+        const result = userResponse === oneQuestion?.correct_answer;
+        let correct = 0;
+        let incorrect = 0;
+        if(result){
+            correct = 1;
+        }else{
+            incorrect = 1;
+        }
+        setQuiz({
+            questions: [...quiz.questions, oneQuestion],
+            corrects: quiz.corrects+=correct,
+            incorrects: quiz.incorrects+=incorrect,
+            totalQuestions: quantityQuestions
+        })
+
+        return result;
     }
 
     function loadingUserAnswer(value: String){
@@ -119,7 +142,8 @@ export const QuestionsProvider = ({children}: QuestionsProviderProps) => {
             loadingUserAnswer,
             loadingQuestions,
             checkAnswer,
-            getQuestion
+            getQuestion,
+            quiz
         }}>
             {children}
         </QuestionsContext.Provider>

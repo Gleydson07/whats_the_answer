@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from 'react';
 import { Formik, Form } from 'formik';
 import { FormControlLabel, RadioGroup, Radio, Typography, Container, Button, Box } from '@material-ui/core';
 import { useQuestions } from './hooks/useQuestions';
+import { useHistory } from 'react-router';
 
 type Question = {
     id: number,
@@ -26,6 +27,7 @@ export function FormQuestion({
     const {loadingUserAnswer, answerSelected, checkAnswer, getQuestion, quantityQuestions} = useQuestions();
     const [hasNextButtonDisabled, setHasNextButtonDisabled] = useState(true);
     const [hasCorrect, setHasCorrect] = useState(false);
+    const history = useHistory();
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const target = event.target as HTMLInputElement;
@@ -40,18 +42,15 @@ export function FormQuestion({
         getQuestion(id+1);
     }
 
-    function finishQuiz(){
-        loadingUserAnswer('');
-    }
-
     function handleSubmit(){
-        
+        loadingUserAnswer('');
+        history.push('/resume');        
     }
 
     return (
-        <Container > 
-            <Typography variant="h5" align="center" style={{margin: "1rem 0"}}>
-                Question # {id+1}
+        <Box maxWidth="sm"> 
+            <Typography variant="h6" align="center" style={{margin: "1rem 0"}}>
+                Question # {id+1} of {quantityQuestions}
             </Typography>
             <Typography align="center" style={{margin: "1rem 0", color:"#8c8c8c"}}>
                 Category: {category} <br/>
@@ -111,7 +110,8 @@ export function FormQuestion({
                                 </Button>
                             ) : (
                                 <Button 
-                                    onClick={() => finishQuiz()}
+                                    // onClick={() => finishQuiz()}
+                                    type="submit"
                                     variant="contained" 
                                     color="primary" 
                                     disabled={hasNextButtonDisabled}
@@ -123,6 +123,6 @@ export function FormQuestion({
                     </Form>
                 )}
             </Formik>
-        </Container>
+        </Box>
     );
 };

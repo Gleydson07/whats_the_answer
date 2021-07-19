@@ -1,25 +1,29 @@
 import React from 'react';
 
-import { Container, Typography, Card } from "@material-ui/core";
+import { Container, Typography, Card, Box } from "@material-ui/core";
 import {Skeleton} from '@material-ui/lab';
 
 import { useQuestions } from "../components/hooks/useQuestions";
-import {StatusProgress} from "../components/StatusProgress";
 import { FormQuestion } from "../components/FormQuestion";
 
 export function Dashboard(){
     const {oneQuestion} = useQuestions();
-    const {id} = oneQuestion;
 
     return (
-        <Container>
-            <Typography variant="h4" style={{marginTop: "1rem"}}>
+        <Container style={{height:"100vh", display:"flex", flexDirection: "column"}}>
+            <Typography variant="h4" style={{paddingTop: "1rem"}}>
                 Dashboard
             </Typography>
-            {/* <StatusProgress/> */}
-            {id !== undefined ? (
-                <Container maxWidth="sm">
-                    <Card style={{marginTop: "2rem"}}>
+            <Box 
+                display="flex" 
+                maxWidth="sm" 
+                margin="auto 0" 
+                alignItems="center" 
+                justifyContent="center" 
+                height="100%"
+            >
+                {oneQuestion.id !== undefined ? (
+                    <Card>
                         <FormQuestion 
                             key={oneQuestion.id}
                             id={oneQuestion.id}
@@ -32,13 +36,13 @@ export function Dashboard(){
                             answers={oneQuestion.answers}
                         />
                     </Card>
-                </Container>
-            ): (
-                <Container maxWidth="sm">
-                    {/* <Skeleton variant="text" height={40} style={{marginTop: "2rem"}} animation="wave"/> */}
-                    <Skeleton variant="rect" width="100%" height={400} style={{marginTop: "2rem"}} animation="wave"/>
-                </Container>
-            )}
+                ): (
+                    <Container maxWidth="sm">
+                        {/* <Skeleton variant="text" height={40} style={{marginTop: "2rem"}} animation="wave"/> */}
+                        <Skeleton variant="rect" width="100%" height={400} style={{marginTop: "2rem"}} animation="wave"/>
+                    </Container>
+                )}
+            </Box>
         </Container>
     )
 }
