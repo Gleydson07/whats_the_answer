@@ -1,7 +1,7 @@
-import { useQuestions } from "../components/hooks/useQuestions"
+import { useQuestions } from "../hooks/useQuestions"
 import { Statistics } from "../components/Statistics";
 import { Container, Typography, Box } from '@material-ui/core';
-import { FormQuestion } from "../components/FormQuestion";
+import { FormResume } from "../components/FormResume";
 
 export function Resume(){
     const {quiz} = useQuestions();
@@ -12,18 +12,18 @@ export function Resume(){
                 Resume
             </Typography>
             <Statistics/>
-            <Box maxWidth="sm" mt="5rem">
-                {quiz.questions.map(item => (
-                    <FormQuestion 
-                        key={item.id}
+            <Box maxWidth="sm" mt="3rem">
+                {quiz.questions.map((item, index) => (
+                    <FormResume
+                        key={index}
                         id={item.id}
                         category={item.category}
                         type={item.type}
                         difficulty={item.difficulty}
                         question={item.question}
                         correct_answer={item.correct_answer}
-                        incorrect_answers={item.incorrect_answers}
                         answers={item.answers}                
+                        answer_selected_for_user={item.answer_selected_for_user}                
                     />
                 ))}
             </Box>

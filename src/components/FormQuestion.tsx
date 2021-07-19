@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Formik, Form } from 'formik';
-import { FormControlLabel, RadioGroup, Radio, Typography, Container, Button, Box } from '@material-ui/core';
-import { useQuestions } from './hooks/useQuestions';
+import { FormControlLabel, RadioGroup, Radio, Typography, Button, Box } from '@material-ui/core';
+import { useQuestions } from '../hooks/useQuestions';
 import { useHistory } from 'react-router';
 
 type Question = {
@@ -24,7 +24,13 @@ export function FormQuestion({
     correct_answer, 
     answers
 }: Question) {
-    const {loadingUserAnswer, answerSelected, checkAnswer, getQuestion, quantityQuestions} = useQuestions();
+    const {
+        loadingUserAnswer, 
+        answerSelected, 
+        checkAnswer, 
+        getQuestion, 
+        quantityQuestions
+    } = useQuestions();
     const [hasNextButtonDisabled, setHasNextButtonDisabled] = useState(true);
     const [hasCorrect, setHasCorrect] = useState(false);
     const history = useHistory();
@@ -48,9 +54,14 @@ export function FormQuestion({
     }
 
     return (
-        <Box maxWidth="sm"> 
+        <Box 
+            display="flex" 
+            height="100%"
+            width={500}
+            flexDirection="column" 
+        > 
             <Typography variant="h6" align="center" style={{margin: "1rem 0"}}>
-                Question # {id+1} of {quantityQuestions}
+                Question #{id+1} of {quantityQuestions}
             </Typography>
             <Typography align="center" style={{margin: "1rem 0", color:"#8c8c8c"}}>
                 Category: {category} <br/>
@@ -64,8 +75,8 @@ export function FormQuestion({
             >
                 {(formik) => (
                     <Form onSubmit={formik.handleSubmit} style={{padding: "0 2rem 2rem"}}>
-                        <Typography variant="subtitle1" align="center" style={{margin: "1rem 0"}}>
-                            {question}
+                        <Typography variant="subtitle1" component="h2" style={{margin: "1rem 0"}}>
+                            <span>{question}</span>
                         </Typography>
                         <RadioGroup 
                             id="answer" 
@@ -85,7 +96,7 @@ export function FormQuestion({
                                 />
                             ))}
                         </RadioGroup>
-                        <Typography variant="subtitle1" align="center" style={{margin: "1rem 0"}}>
+                        <Typography variant="subtitle1" component="h4" align="center" style={{padding: "1rem 0"}}>
                             {answerSelected ? (
                                 <span 
                                     style={{color: hasCorrect ? "green" : "red"}}
@@ -110,7 +121,6 @@ export function FormQuestion({
                                 </Button>
                             ) : (
                                 <Button 
-                                    // onClick={() => finishQuiz()}
                                     type="submit"
                                     variant="contained" 
                                     color="primary" 

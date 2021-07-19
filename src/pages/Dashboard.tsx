@@ -3,7 +3,7 @@ import React from 'react';
 import { Container, Typography, Card, Box } from "@material-ui/core";
 import {Skeleton} from '@material-ui/lab';
 
-import { useQuestions } from "../components/hooks/useQuestions";
+import { useQuestions } from "../hooks/useQuestions";
 import { FormQuestion } from "../components/FormQuestion";
 
 export function Dashboard(){

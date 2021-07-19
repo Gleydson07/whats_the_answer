@@ -1,6 +1,6 @@
 import { useHistory } from 'react-router';
 import { Box, Button, Typography } from '@material-ui/core';
-import { useQuestions } from '../components/hooks/useQuestions';
+import { useQuestions } from '../hooks/useQuestions';
 
 export function Confirmation(){    
     const { loadingQuantityQuestions, loadingQuestions, quantityQuestions } = useQuestions();

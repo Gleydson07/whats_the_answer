@@ -1,5 +1,6 @@
+import { useEffect } from "react";
 import { useContext, createContext, ReactNode, useState } from "react";
-import { api } from "../../services/axios";
+import { api } from "../services/axios";
 
 type QuestionsProviderProps = {
     children: ReactNode;
@@ -25,7 +26,7 @@ type Question = {
     correct_answer: string,
     incorrect_answers: string[]
     answers: string[],
-    answer_selected_for_user?: string;
+    answer_selected_for_user: string;
 }
 
 interface IQuestionContextProps {
@@ -36,7 +37,7 @@ interface IQuestionContextProps {
     loadingQuantityQuestions: (value: number) => void;
     loadingUserAnswer: (value: String) => void;
     loadingQuestions: () => void;
-    checkAnswer: (value: String) => boolean;
+    checkAnswer: (value: string) => boolean;
     getQuestion: (value?: number) => void;
 }
 
@@ -56,7 +57,11 @@ export const QuestionsProvider = ({children}: QuestionsProviderProps) => {
     const [answerSelected, setAnswerSelected] = useState<String>('');
     const [quiz, setQuiz] = useState<Quiz>(initialQuizProps);
 
-    function checkAnswer(userResponse: String){
+    useEffect(() => {
+        localStorage.setItem("@whatstheanswer:quiz", JSON.stringify(quiz));
+    }, [quiz])
+
+    function checkAnswer(userResponse: string){
         const result = userResponse === oneQuestion?.correct_answer;
         let correct = 0;
         let incorrect = 0;
@@ -65,8 +70,9 @@ export const QuestionsProvider = ({children}: QuestionsProviderProps) => {
         }else{
             incorrect = 1;
         }
+
         setQuiz({
-            questions: [...quiz.questions, oneQuestion],
+            questions: [...quiz.questions, {...oneQuestion, answer_selected_for_user: userResponse}],
             corrects: quiz.corrects+=correct,
             incorrects: quiz.incorrects+=incorrect,
             totalQuestions: quantityQuestions

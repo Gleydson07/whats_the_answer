@@ -2,7 +2,7 @@ import { ChangeEvent } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Form, Formik } from "formik";
 import { Box, FormLabel, FormControlLabel, RadioGroup, Radio, Typography } from '@material-ui/core';
-import { useQuestions } from '../components/hooks/useQuestions';
+import { useQuestions } from '../hooks/useQuestions';
 
 export function Home(){
     const history = useHistory();
@@ -36,7 +36,7 @@ export function Home(){
             >
                 {(formik) => (
                     <Form onSubmit={formik.handleSubmit} style={{minWidth: "300px"}}>
-                        <FormLabel style={{marginTop: "1rem"}} component="legend">Select the number of questions</FormLabel>
+                        <FormLabel style={{marginTop: "1rem"}} component="legend">Select the number of questions </FormLabel>
                         <RadioGroup 
                             aria-label="questionQuantity" 
                             name="questionQuantity" 
@@ -53,6 +53,12 @@ export function Home(){
                     </Form>
                 )}
             </Formik>
+
+            <Box>
+                <Typography>
+                    <FormLabel style={{marginTop: "1rem"}} component="legend">View the last quiz? </FormLabel>                    
+                </Typography>
+            </Box>
         </Box>
     )
 }
