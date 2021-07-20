@@ -27,7 +27,7 @@ export function FormResume({
     answers,
     answer_selected_for_user
 }: Question) {
-    const {quantityQuestions} = useQuestions();
+    const {quiz} = useQuestions();
 
     function checkAnswer(item: string){
         if(item !== correct_answer && item === answer_selected_for_user){
@@ -55,7 +55,7 @@ export function FormResume({
         > 
             <Card style={{marginTop:"1rem"}}>
                 <Typography variant="h6" align="center" style={{margin: "1rem 0"}}>
-                    Question #{id+1} of {quantityQuestions}
+                    Question #{id+1} of {quiz.totalQuestions}
                 </Typography>
                 <Typography align="center" style={{margin: "1rem 0", color:"#8c8c8c"}}>
                     Category: {category} <br/>

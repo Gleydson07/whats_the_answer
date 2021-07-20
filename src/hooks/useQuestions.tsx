@@ -9,7 +9,6 @@ type QuestionsProviderProps = {
 type Quiz = {
     questions: Question[],
     corrects: number,
-    incorrects: number,
     totalQuestions: number,
 }
 
@@ -39,12 +38,13 @@ interface IQuestionContextProps {
     loadingQuestions: () => void;
     checkAnswer: (value: string) => boolean;
     getQuestion: (value?: number) => void;
+    setDataQuiz: (value: Quiz) => void;
+    resetQuiz: () => void;
 }
 
 const initialQuizProps  = {
     questions: [] as Question[],
     corrects: 0,
-    incorrects: 0,
     totalQuestions: 0
 }
 
@@ -58,23 +58,28 @@ export const QuestionsProvider = ({children}: QuestionsProviderProps) => {
     const [quiz, setQuiz] = useState<Quiz>(initialQuizProps);
 
     useEffect(() => {
-        localStorage.setItem("@whatstheanswer:quiz", JSON.stringify(quiz));
+        quiz.totalQuestions && localStorage.setItem("whatstheanswer@quiz", JSON.stringify(quiz));
     }, [quiz])
 
+    function resetQuiz(){
+        setQuiz(initialQuizProps);
+    }
+
+    function setDataQuiz(quiz: Quiz){
+        setQuiz(quiz);
+    }
+
     function checkAnswer(userResponse: string){
-        const result = userResponse === oneQuestion?.correct_answer;
+        const result = userResponse === oneQuestion.correct_answer;
         let correct = 0;
-        let incorrect = 0;
+
         if(result){
             correct = 1;
-        }else{
-            incorrect = 1;
         }
-
+        
         setQuiz({
             questions: [...quiz.questions, {...oneQuestion, answer_selected_for_user: userResponse}],
             corrects: quiz.corrects+=correct,
-            incorrects: quiz.incorrects+=incorrect,
             totalQuestions: quantityQuestions
         })
 
@@ -82,19 +87,15 @@ export const QuestionsProvider = ({children}: QuestionsProviderProps) => {
     }
 
     function loadingUserAnswer(value: String){
-        setAnswerSelected(value);
+        setAnswerSelected(value); 
     }
 
     function getQuestion(next?: number){
         if(loadedQuestions) {
             if(!next){
                 setOneQuestion(loadedQuestions[0]);
-            }else{
-                if(next !== quantityQuestions){
-                    setOneQuestion(loadedQuestions[next]);
-                }else{
-                    console.log('quiz finished')
-                }
+            }else if(next !== quantityQuestions){
+                setOneQuestion(loadedQuestions[next]);
             }
         }
     }
@@ -105,15 +106,15 @@ export const QuestionsProvider = ({children}: QuestionsProviderProps) => {
         .then(data => data.results);
         
         const data = results.map((item, index) => ({
-                ...item, 
-                id: index, 
-                answers: shuffle([item.correct_answer, ...item.incorrect_answers])
+            ...item, 
+            id: index, 
+            answers: shuffle([item.correct_answer, ...item.incorrect_answers])
         }))
         
-        setLoadedQuestions([...data])
+        setLoadedQuestions(data)
 
         setOneQuestion({
-            ...results[0], 
+            ...results[0],
             id: 0, 
             answers: shuffle([results[0].correct_answer, ...results[0].incorrect_answers])
         })
@@ -149,6 +150,8 @@ export const QuestionsProvider = ({children}: QuestionsProviderProps) => {
             loadingQuestions,
             checkAnswer,
             getQuestion,
+            setDataQuiz,
+            resetQuiz,
             quiz
         }}>
             {children}

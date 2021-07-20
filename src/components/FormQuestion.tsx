@@ -11,7 +11,6 @@ type Question = {
     difficulty: string,
     question: string,
     correct_answer: string,
-    incorrect_answers: string[],
     answers: string[],
 }
 
@@ -28,7 +27,7 @@ export function FormQuestion({
         loadingUserAnswer, 
         answerSelected, 
         checkAnswer, 
-        getQuestion, 
+        getQuestion,
         quantityQuestions
     } = useQuestions();
     const [hasNextButtonDisabled, setHasNextButtonDisabled] = useState(true);
@@ -57,6 +56,7 @@ export function FormQuestion({
         <Box 
             display="flex" 
             height="100%"
+            maxWidth="100%"
             width={500}
             flexDirection="column" 
         > 

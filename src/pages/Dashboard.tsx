@@ -32,13 +32,11 @@ export function Dashboard(){
                             difficulty={oneQuestion.difficulty}
                             question={oneQuestion.question}
                             correct_answer={oneQuestion.correct_answer}
-                            incorrect_answers={oneQuestion.incorrect_answers}
                             answers={oneQuestion.answers}
                         />
                     </Card>
                 ): (
                     <Container maxWidth="sm">
-                        {/* <Skeleton variant="text" height={40} style={{marginTop: "2rem"}} animation="wave"/> */}
                         <Skeleton variant="rect" width="100%" height={400} style={{marginTop: "2rem"}} animation="wave"/>
                     </Container>
                 )}

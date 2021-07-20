@@ -3,15 +3,16 @@ import { Box, Button, Typography } from '@material-ui/core';
 import { useQuestions } from '../hooks/useQuestions';
 
 export function Confirmation(){    
-    const { loadingQuantityQuestions, loadingQuestions, quantityQuestions } = useQuestions();
+    const { loadingQuestions, loadingQuantityQuestions, resetQuiz, quantityQuestions } = useQuestions();
     const history = useHistory();
 
-    function handleCancelQuiz(){
+    function handleCancelQuiz(){        
         loadingQuantityQuestions(0);
         history.push('/')
     }
 
     function handleStartQuiz(){
+        resetQuiz();
         loadingQuestions();
         history.push('/dashboard');
     }

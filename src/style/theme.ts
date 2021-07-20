@@ -5,7 +5,8 @@ export const theme = createTheme({
       MuiCssBaseline: {
           '@global': {
               body: {
-                background: "#3494E6",
+                backgroundColor: "#f7f7f7",
+                backgroundAttachment: "fixed",
               }
           }
       }

@@ -1,10 +1,19 @@
 import { useQuestions } from "../hooks/useQuestions"
 import { Statistics } from "../components/Statistics";
-import { Container, Typography, Box } from '@material-ui/core';
+import { Container, Typography, Box, IconButton, FormLabel } from '@material-ui/core';
 import { FormResume } from "../components/FormResume";
 
+import HomeIcon from '@material-ui/icons/Home';
+import { useHistory } from "react-router";
+
 export function Resume(){
-    const {quiz} = useQuestions();
+    const {quiz, loadingQuantityQuestions} = useQuestions();
+    const history = useHistory();
+
+    function goToHome(){
+        loadingQuantityQuestions(0)
+        history.push("/");
+    }
 
     return (
         <Container style={{marginTop:"1rem"}}>
@@ -26,6 +35,17 @@ export function Resume(){
                         answer_selected_for_user={item.answer_selected_for_user}                
                     />
                 ))}
+            </Box>
+            <Box display="flex" flexDirection="column" alignItems="center" mt="1rem">
+                <Typography>
+                    <FormLabel style={{marginTop: "1rem"}} component="legend">Go to home? </FormLabel>
+                </Typography>
+                <IconButton 
+                    onClick={() => goToHome()}
+                    style={{marginTop:"0.5rem"}}
+                >
+                    <HomeIcon color="primary" fontSize="large"/>
+                </IconButton>
             </Box>
         </Container>
     )

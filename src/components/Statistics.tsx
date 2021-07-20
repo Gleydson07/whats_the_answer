@@ -40,7 +40,7 @@ export function Statistics(){
                     <Box position="absolute" display="inline-flex">
                         <CircularProgress 
                             variant="determinate" 
-                            value={(quiz.incorrects/quiz.totalQuestions)*100} 
+                            value={((quiz.totalQuestions-quiz.corrects)/quiz.totalQuestions)*100} 
                             size={144} 
                             thickness={7} 
                             color="secondary"
@@ -83,7 +83,7 @@ export function Statistics(){
                                 >
                                     <span>Incorrects</span>
                                     <br/>
-                                    <span>{`${(quiz.incorrects/quiz.totalQuestions)*100}%`}</span>
+                                    <span>{`${((quiz.totalQuestions-quiz.corrects)/quiz.totalQuestions)*100}%`}</span>
                                 </Typography>
                             </Tooltip>
                         </Box>
@@ -105,7 +105,7 @@ export function Statistics(){
                         </Box>               
                         <Box display="flex" width="100%" justifyContent="space-between">
                             <span>Incorrects</span>
-                            <span>{quiz.incorrects}</span>
+                            <span>{(quiz.totalQuestions-quiz.corrects)}</span>
                         </Box>               
                         <Box display="flex" width="100%" justifyContent="space-between">
                             <span>Total</span>
