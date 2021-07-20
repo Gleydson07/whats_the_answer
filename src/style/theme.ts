@@ -5,8 +5,10 @@ export const theme = createTheme({
       MuiCssBaseline: {
           '@global': {
               body: {
-                backgroundColor: "#f7f7f7",
-                backgroundAttachment: "fixed",
+                // backgroundColor: "#f7f7f7",
+                backgroundImage: `url(${"/interrogate.svg"})`,
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center"
               }
           }
       }

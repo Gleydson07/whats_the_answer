@@ -1,17 +1,39 @@
 import { ChangeEvent, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Form, Formik } from "formik";
-import { Box, FormLabel, FormControlLabel, RadioGroup, Radio, Typography, IconButton, Tooltip } from '@material-ui/core';
+import { Box, FormLabel, FormControlLabel, RadioGroup, Radio, Typography, IconButton, Tooltip, makeStyles } from '@material-ui/core';
 import { useQuestions } from '../hooks/useQuestions';
 
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import ReplayIcon from '@material-ui/icons/Replay';
 import { useState } from 'react';
 
+const useStyles = makeStyles((theme) => ({
+    typography: {
+        fontSize: "96px",
+        [theme.breakpoints.down("sm")]: {
+            fontSize: "64px"
+        },
+        [theme.breakpoints.down("xs")]: {
+            fontSize: "30px"
+        },
+    },
+    image: {
+        width: "96px",
+        [theme.breakpoints.down("sm")]: {
+            width: "64px"
+        },
+        [theme.breakpoints.down("xs")]: {
+            width: "30px"
+        },
+    }
+}))
+
 export function Home(){
     const history = useHistory();
     const {loadingQuantityQuestions, quantityQuestions, setDataQuiz} = useQuestions();
     const [showForm, setShowForm] = useState(false);
+    const classes = useStyles();
 
     useEffect(() => {
         const data = localStorage.getItem("whatstheanswer@quiz");
@@ -44,12 +66,12 @@ export function Home(){
 
     return (
         <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" style={{height:"100vh"}}>
-            <Typography component="span" variant="h4" gutterBottom>
-                <strong style={{color: "red"}}>W</strong>
+            <Typography className={classes.typography} component="span" gutterBottom>
+                <strong style={{color: "#f50057"}}>W</strong>
                 <span style={{fontWeight: 300}}>hat's the</span>
                 <strong style={{color: "#3f51b5"}}> A</strong>
                 <span style={{fontWeight: 300}}>nswer</span>
-                <strong > ?</strong>
+                <img src="/interrogate-fillfull.svg" alt="interrogate" className={classes.image}/>
             </Typography>
             {!showForm ? (
                 <>

@@ -36,7 +36,7 @@ export function Resume(){
                     />
                 ))}
             </Box>
-            <Box display="flex" flexDirection="column" alignItems="center" mt="1rem">
+            <Box display="flex" flexDirection="column" alignItems="center" marginY="2rem">
                 <Typography>
                     <FormLabel style={{marginTop: "1rem"}} component="legend">Go to home? </FormLabel>
                 </Typography>

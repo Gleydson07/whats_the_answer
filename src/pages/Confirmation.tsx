@@ -1,5 +1,5 @@
 import { useHistory } from 'react-router';
-import { Box, Button, Typography } from '@material-ui/core';
+import { Box, Button, FormLabel, Typography } from '@material-ui/core';
 import { useQuestions } from '../hooks/useQuestions';
 
 export function Confirmation(){    
@@ -22,10 +22,10 @@ export function Confirmation(){
             <Typography component="span" variant="h6">
                 <span style={{fontWeight: 300}}>Start quiz?</span>
             </Typography>
-            <Typography component="span" style={{color:"#9d9d9d"}} gutterBottom>
-                <span style={{fontWeight: 300}}>Estimated time: { (Math.round(Number(quantityQuestions) * 0.75))} min</span>
+            <Typography gutterBottom>
+                <FormLabel  style={{fontWeight: 300}} component="legend">Estimated time: { (Math.round(Number(quantityQuestions) * 0.75))} min</FormLabel>
             </Typography>
-            <Box marginY={2} display="flex" justifyContent="space-between" style={{width: 300}}>
+            <Box marginTop="2rem" display="flex" justifyContent="space-between" style={{width: 300}}>
                 <Button 
                     onClick={() => handleStartQuiz()}
                     type="button" 
