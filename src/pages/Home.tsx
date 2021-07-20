@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Form, Formik } from "formik";
 import { Box, FormLabel, FormControlLabel, RadioGroup, Radio, Typography, IconButton, Tooltip, makeStyles } from '@material-ui/core';
@@ -6,7 +6,7 @@ import { useQuestions } from '../hooks/useQuestions';
 
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import ReplayIcon from '@material-ui/icons/Replay';
-import { useState } from 'react';
+import interrogateImg from '../assets/images/interrogate-fillfull.svg'
 
 const useStyles = makeStyles((theme) => ({
     typography: {
@@ -43,7 +43,7 @@ export function Home(){
         ) : (
             setShowForm(true)
         );
-    }, [])
+    }, [setDataQuiz])
 
     function goToResume(){
         history.push("/resume");
@@ -71,7 +71,7 @@ export function Home(){
                 <span style={{fontWeight: 300}}>hat's the</span>
                 <strong style={{color: "#3f51b5"}}> A</strong>
                 <span style={{fontWeight: 300}}>nswer</span>
-                <img src="/interrogate-fillfull.svg" alt="interrogate" className={classes.image}/>
+                <img src={interrogateImg} alt="interrogate" className={classes.image}/>
             </Typography>
             {!showForm ? (
                 <>

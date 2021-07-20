@@ -1,4 +1,5 @@
 import { createTheme } from '@material-ui/core/styles';
+import interrogateImg from '../assets/images/interrogate.svg'
 
 export const theme = createTheme({
   overrides: {
@@ -6,7 +7,7 @@ export const theme = createTheme({
           '@global': {
               body: {
                 // backgroundColor: "#f7f7f7",
-                backgroundImage: `url(${"/interrogate.svg"})`,
+                backgroundImage: `url(${interrogateImg})`,
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center"
               }
