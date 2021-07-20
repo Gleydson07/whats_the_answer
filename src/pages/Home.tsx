@@ -43,7 +43,7 @@ export function Home(){
         ) : (
             setShowForm(true)
         );
-    }, [setDataQuiz])
+    }, [])
 
     function goToResume(){
         history.push("/resume");
