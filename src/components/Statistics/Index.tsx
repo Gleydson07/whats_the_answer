@@ -1,6 +1,6 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Box, Tooltip, Typography, Divider } from "@material-ui/core";
-import { useQuestions } from '../hooks/useQuestions';
+import { useQuestions } from '../../hooks/useQuestions';
 
 export function Statistics(){
     const {quiz} = useQuestions();
